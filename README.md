@@ -34,7 +34,7 @@
 <li>Express 4.16.4</li>
 <li>Express-Handlebars 3.0.0</li>
 <li>Bootstrap 5.1.3</li>
-<li>Font-awesome 5.8.1
+<li>Font-awesome 6.1.2
 <br>
 <br></li>
 </ul>
