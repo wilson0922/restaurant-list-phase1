@@ -16,7 +16,7 @@ app.get("/", (req, res) => {
   res.render("index", { restaurants: restaurantList.results });
 });
 
-// querystring
+// search engine
 app.get("/search", (req, res) => {
   const keyword = req.query.keyword.trim().toLowerCase();
   const restaurantSearch = restaurantList.results.filter(
@@ -27,6 +27,7 @@ app.get("/search", (req, res) => {
   res.render("index", { restaurants: restaurantSearch, keyword: keyword });
 });
 
+// show info
 app.get("/restaurants/:restaurant_id", (req, res) => {
   const restaurant = restaurantList.results.find(
     (restaurant) => restaurant.id === Number(req.params.restaurant_id)
@@ -34,7 +35,7 @@ app.get("/restaurants/:restaurant_id", (req, res) => {
   res.render("show", { restaurant: restaurant });
 });
 
-// start nd listen on the express server
+// start and listen on the express server
 app.listen(port, () => {
   console.log(`Express is listening on localhost:${3000}`);
 });
