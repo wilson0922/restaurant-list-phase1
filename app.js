@@ -1,11 +1,17 @@
 const express = require("express");
-const app = express();
-const mongoose = require("mongoose");
-mongoose.connect("mongodb://localhost/restaurant-list", {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+const exphbs = require("express-handlebars");
 const bodyParser = require("body-parser");
+const methodOverride = require("method-override");
+
+const Restaurant = require("./models/Restaurant");
+
+const app = express();
+const port = 3000;
+const mongoose = require("mongoose");
+mongoose.connect(
+  "mongodb+srv://wilson0922:abcabc123@cluster0.akbk61g.mongodb.net/restaurantlist?retryWrites=true&w=majority",
+  { useNewUrlParser: true, useUnifiedTopology: true }
+);
 
 // 資料庫連線狀態
 const db = mongoose.connection;
@@ -18,39 +24,69 @@ db.once("open", () => {
   console.log("mongodb connected!");
 });
 
-const exphbs = require("express-handlebars");
-const restaurantList = require("./restaurant.json");
-const port = 3000;
+//設定hbs樣板引擎
+app.engine("hbs", exphbs({ defaultLayout: "main", extname: ".hbs" }));
+app.set("view engine", "hbs");
 
-// express template engine (handlebars)
-app.engine("handlebars", exphbs({ defaultLayout: "main" }));
-app.set("view engine", "handlebars");
+// 設定body-parser
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(methodOverride("_method"));
 
-// setting static files
+// setting Bootstrap static files
 app.use(express.static("public"));
 
-// routes setting
+// 主頁: GET瀏覽全部餐廳
 app.get("/", (req, res) => {
-  res.render("index", { restaurants: restaurantList.results });
+  Restaurant.find() //拿全部資料
+    .lean()
+    .then((restaurantsData) => res.render("index", { restaurantsData }))
+    .catch((error) => console.error(error));
 });
 
-// search engine
-app.get("/search", (req, res) => {
-  const keyword = req.query.keyword.trim().toLowerCase();
-  const restaurantSearch = restaurantList.results.filter(
-    (restaurant) =>
-      restaurant.name.toLowerCase().includes(keyword) ||
-      restaurant.category.includes(keyword)
-  );
-  res.render("index", { restaurants: restaurantSearch, keyword: keyword });
+// 設定路由：GET新增餐廳頁
+app.get("/restaurants/new", (req, res) => {
+  res.render("new");
 });
 
-// show info
-app.get("/restaurants/:restaurant_id", (req, res) => {
-  const restaurant = restaurantList.results.find(
-    (restaurant) => restaurant.id === Number(req.params.restaurant_id)
-  );
-  res.render("show", { restaurant: restaurant });
+// 設定路由: POST新餐廳資料
+app.post("/restaurants", (req, res) => {
+  Restaurant.create(req.body)
+    .then(() => res.redirect("/"))
+    .catch((err) => console.log(err));
+});
+
+// 設定路由: GET瀏覽個別餐廳資料
+app.get("/restaurants/:id", (req, res) => {
+  const id = req.params.id;
+  Restaurant.findById(id)
+    .lean()
+    .then((restaurantsData) => res.render("show", { restaurantsData }))
+    .catch((error) => console.log(error));
+});
+
+// 設定路由: GET編輯餐廳頁
+app.get("/restaurants/:id/edit", (req, res) => {
+  const id = req.params.id;
+  Restaurant.findById(id)
+    .lean()
+    .then((restaurantData) => res.render("edit", { restaurantData }))
+    .catch((err) => console.log(err));
+});
+
+// 設定路由: PUT更新餐廳
+app.put("/restaurants/:id", (req, res) => {
+  const id = req.params.id;
+  Restaurant.findByIdAndUpdate(id, req.body)
+    .then(() => res.redirect(`/restaurants/${id}`))
+    .catch((err) => console.log(err));
+});
+
+// 設定路由: DELETE刪除餐廳
+app.delete("/restaurants/:id", (req, res) => {
+  const id = req.params.id;
+  Restaurant.findByIdAndDelete(id)
+    .then(() => res.redirect("/"))
+    .catch((err) => console.log(err));
 });
 
 // start and listen on the express server
