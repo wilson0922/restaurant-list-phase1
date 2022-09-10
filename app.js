@@ -65,7 +65,7 @@ app.get("/restaurants/:id", (req, res) => {
 });
 
 // 設定路由: GET編輯餐廳頁
-app.get("/restaurants/:id/edit", (req, res) => {
+app.put("/restaurants/:id", (req, res) => {
   const id = req.params.id;
   Restaurant.findById(id)
     .lean()
