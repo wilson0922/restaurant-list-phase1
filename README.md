@@ -12,7 +12,7 @@
 </ul>
 </li>
 <h3>實際截圖</h3>
-<img src="https://github.com/wilson0922/restaurant-list-phase1/blob/main/image/restaurant-list-phase1.png" alt="image" style="max-width: 100%;">
+<img src="https://github.com/wilson0922/restaurant-list-phase1/blob/main/image/restaurant-list-phase1-refactor.png" alt="image" style="max-width: 100%;">
 
 <h3>開發工具</h3>
 <li>Node.js@16.16.0</li>
