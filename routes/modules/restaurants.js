@@ -3,6 +3,26 @@ const router = express.Router();
 
 const Restaurant = require("../../models/Restaurant");
 
+// 設定路由 get 搜尋特定餐廳
+router.get("/search", (req, res) => {
+  const keyword = req.query.keyword.trim().toLowerCase();
+  return Restaurant.find()
+    .lean()
+    .then((restaurant) => {
+      const restaurantsSearch = restaurant.filter((data) => {
+        return (
+          data.name.toLowerCase().includes(keyword) ||
+          data.category.includes(keyword)
+        );
+      });
+      res.render("index", {
+        restaurantsData: restaurantsSearch,
+        keyword: keyword,
+      });
+    })
+    .catch((error) => console.log(error));
+});
+
 // 設定路由：GET新增餐廳頁
 router.get("/new", (req, res) => {
   res.render("new");
