@@ -1,9 +1,9 @@
 const mongoose = require("mongoose");
 
-mongoose.connect(
-  "mongodb+srv://wilson0922:abcabc123@cluster0.akbk61g.mongodb.net/restaurantlist?retryWrites=true&w=majority",
-  { useNewUrlParser: true, useUnifiedTopology: true }
-);
+mongoose.connect(process.env.MONGODB_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 
 // 資料庫連線狀態
 const db = mongoose.connection;
