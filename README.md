@@ -30,7 +30,10 @@
 <li>請先確認有安裝 node.js 與 npm</li>
 <li>將專案 clone 到本地</li>
 <li>在本地開啟之後，透過終端機進入資料夾，輸入： <code>npm install</code></li>
-<li>安裝完npm及相關開發套件後，繼續輸入： <code>npm run dev</code></li>
+<li>安裝npm及相關開發套件</li>
+<li>設定環境變數 MONGODB_URI=mongodb+srv://<strong>&lt;Your MongoDB Account&gt;</strong>:<strong>&lt;Your MongoDB Password&gt;</strong>@cluster0.popacfe.mongodb.net/<strong>&lt;Your MongoDB Table&gt;</strong>?retryWrites=true&amp;w=majority
+</li>
+<li>終端機輸入： <code>npm run dev</code></li>
 <li>若看見此行訊息則代表順利運行， <code>express is listening on localhost:3000</code></li>
 <li>接下來就可以打開瀏覽器進入以下網址 <a href="http://localhost:3000" rel="nofollow">http://localhost:3000</a> 開始使用囉！</li>
 <li>若欲暫停使用，按下 <code>ctrl + c</code> 即可</li>
