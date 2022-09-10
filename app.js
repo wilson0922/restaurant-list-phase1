@@ -5,6 +5,8 @@ const methodOverride = require("method-override");
 
 const Restaurant = require("./models/Restaurant");
 
+const routes = require("./routes");
+
 const app = express();
 const port = 3000;
 const mongoose = require("mongoose");
@@ -32,62 +34,10 @@ app.set("view engine", "hbs");
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 
+app.use(routes);
+
 // setting Bootstrap static files
 app.use(express.static("public"));
-
-// 主頁: GET瀏覽全部餐廳
-app.get("/", (req, res) => {
-  Restaurant.find() //拿全部資料
-    .lean()
-    .then((restaurantsData) => res.render("index", { restaurantsData }))
-    .catch((error) => console.error(error));
-});
-
-// 設定路由：GET新增餐廳頁
-app.get("/restaurants/new", (req, res) => {
-  res.render("new");
-});
-
-// 設定路由: POST新餐廳資料
-app.post("/restaurants", (req, res) => {
-  Restaurant.create(req.body)
-    .then(() => res.redirect("/"))
-    .catch((err) => console.log(err));
-});
-
-// 設定路由: GET瀏覽個別餐廳資料
-app.get("/restaurants/:id", (req, res) => {
-  const id = req.params.id;
-  Restaurant.findById(id)
-    .lean()
-    .then((restaurantsData) => res.render("show", { restaurantsData }))
-    .catch((error) => console.log(error));
-});
-
-// 設定路由: GET編輯餐廳頁
-app.get("/restaurants/:id/edit", (req, res) => {
-  const id = req.params.id;
-  Restaurant.findById(id)
-    .lean()
-    .then((restaurantData) => res.render("edit", { restaurantData }))
-    .catch((err) => console.log(err));
-});
-
-// 設定路由: PUT更新餐廳
-app.put("/restaurants/:id", (req, res) => {
-  const id = req.params.id;
-  Restaurant.findByIdAndUpdate(id, req.body)
-    .then(() => res.redirect(`/restaurants/${id}`))
-    .catch((err) => console.log(err));
-});
-
-// 設定路由: DELETE刪除餐廳
-app.delete("/restaurants/:id", (req, res) => {
-  const id = req.params.id;
-  Restaurant.findByIdAndDelete(id)
-    .then(() => res.redirect("/"))
-    .catch((err) => console.log(err));
-});
 
 // start and listen on the express server
 app.listen(port, () => {
