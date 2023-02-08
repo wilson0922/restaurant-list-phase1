@@ -1,14 +1,11 @@
-<h1>My Restaurant List-建立餐廳清單的CRUD功能</h1>
+<h1>My Restaurant List-重構餐廳清單</h1>
 <h3>功能介紹</h3>
 <ul>
 <li>
 <p>完成功能如下：</p>
 <ul>
-<li>使用者可新增餐廳</li>
-<li>使用者可瀏覽餐廳詳細資訊</li>
-<li>使用者可瀏覽所有餐廳</li>
-<li>使用者可修改餐廳資訊</li>
-<li>使用者可刪除餐廳</li>
+<li>參考 RESTful 設計，運用 HTTP 動詞來讓路由帶有語義</li>
+<li>使用 express.Router 獨立路由器，並規劃路由模組</li>
 </ul>
 </li>
 <h3>實際截圖</h3>

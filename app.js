@@ -3,10 +3,12 @@ const exphbs = require("express-handlebars");
 const bodyParser = require("body-parser");
 const methodOverride = require("method-override");
 
-const Restaurant = require("./models/Restaurant");
+const routes = require("./routes");
+require("./config/mongoose");
 
 const app = express();
 const port = 3000;
+<<<<<<< HEAD
 const mongoose = require("mongoose");
 
 mongoose.connect(process.env.MONGODB_URI, {
@@ -24,6 +26,8 @@ db.on("error", () => {
 db.once("open", () => {
   console.log("mongodb connected!");
 });
+=======
+>>>>>>> origin/restaurant-list-phase2
 
 //設定hbs樣板引擎
 app.engine("hbs", exphbs({ defaultLayout: "main", extname: ".hbs" }));
@@ -33,9 +37,12 @@ app.set("view engine", "hbs");
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 
+app.use(routes);
+
 // setting Bootstrap static files
 app.use(express.static("public"));
 
+<<<<<<< HEAD
 // 主頁: GET瀏覽全部餐廳
 app.get("/", (req, res) => {
   Restaurant.find() //拿全部資料
@@ -110,6 +117,8 @@ app.delete("/restaurants/:id", (req, res) => {
     .catch((err) => console.log(err));
 });
 
+=======
+>>>>>>> origin/restaurant-list-phase2
 // start and listen on the express server
 app.listen(port, () => {
   console.log(`Express is listening on localhost:${3000}`);
